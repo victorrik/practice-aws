@@ -1,14 +1,22 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, SimpleHeaderScreens } from '@components'
 import { RootStackScreenProps } from '@AppTypes'
 import { Auth } from 'aws-amplify';
-
+import { API, graphqlOperation } from 'aws-amplify';
+import { listUsers } from "@VGraphql/queries"
 
 const Login = ({navigation}:RootStackScreenProps<"Login">) => {
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
-
+	useEffect(() => {
+		const meow = async() => { 
+			const result = await API.graphql(graphqlOperation(listUsers))
+			console.log('result',result)
+		}
+		meow()
+	}, [])
+	
 	const startLogin = async() => { 
 		try {
 			const user = await Auth.signIn(email, password);

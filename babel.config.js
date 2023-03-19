@@ -13,7 +13,7 @@ module.exports = function (api) {
             "@utils": "./src/utils",
             "@AppTypes": "./src/types",
             "@ComponentTypes": "./src/types/components",
-						"@VGraphql": "src/graphql"
+						"@VGraphql": "./src/graphql"
           },
         },
       ],
