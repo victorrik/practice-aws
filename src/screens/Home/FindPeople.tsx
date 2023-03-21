@@ -99,6 +99,20 @@ const FindPeople = () => {
     );
 		resetValues()
     // navigate to the newly created ChatRoom
+		const userFind = peopleList.find((obj)=>obj.id === id)
+			
+		chatsStore.setCurrentChat({
+			id: chatRoomData.id,
+			user: {
+				id,
+				name:userFind.name,
+				photoProfile:userFind.photoProfile,
+				status:userFind.status,
+			},
+			message: '',
+			messageLastDate: 0,
+			messageType: 'text'
+		})
     navigation.navigate("Chat");
 	 } catch (error) {
 		console.log("error--->",error)

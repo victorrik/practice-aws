@@ -27,7 +27,11 @@ function Main() {
 			}} />
 			<Stack.Screen name="Login" component={Login} />
 			<Stack.Screen name="SignUp" component={SignUp} />
-			<Stack.Screen name="Chat" component={Chat} />
+			<Stack.Screen name="Chat" component={Chat} options={{
+				contentStyle: {
+					backgroundColor:"#F2F5F7"
+				}
+			}} />
 			<Stack.Screen name="ChatDetail" component={ChatDetail} />
 		</Stack.Navigator>
 	);

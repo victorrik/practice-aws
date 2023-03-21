@@ -38,10 +38,12 @@ export interface ChatPreview{
 	messageType:"text"|"file"
 } 
 export type Message = {
-  id: string;
-  content: string;
-  createdAt: string;
-  user: User;
+	userID: string
+	messageType: string,
+	messageToSearc: string,
+	message: string,
+	id: string,
+	createdAt: string
 }
 
 export type ChatRoom = {

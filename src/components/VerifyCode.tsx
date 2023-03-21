@@ -10,7 +10,7 @@ const VerifyCode = (props: VerifyCodeProps, ref: React.Ref<VerifyCodeRef>) => {
 	const btnLinkRef = useRef<ButtonRef>(null)
 	const btnConfirmRef = useRef<ButtonRef>(null)
 	const insets = useSafeAreaInsets()
-	const [show, setShow] = useState(true);
+	const [show, setShow] = useState(false);
 	const [code, setCode] = useState("");
 	useImperativeHandle(
 	ref,

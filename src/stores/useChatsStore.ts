@@ -60,16 +60,6 @@ interface ChatsState {
   setCurrentChat: (chat:ChatPreview) => void;
   clearCurrentChat: () => void;
 }
-const messages = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-"Phasellus et ipsum volutpat orci ultricies hendrerit sit amet non enim. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-"Curabitur a nibh in risus pretium sollicitudin.",
-"Etiam molestie nisi non scelerisque elementum.",
-"Duis sodales magna a nisl ornare aliquet. Duis sodales magna a nisl ornare aliquet.",
-"Nam consequat nunc eu ultrices fermentum.",
-"In varius metus vitae suscipit finibus.",
-"Donec at purus hendrerit, sodales lectus non, vulputate lacus. Duis sodales magna a nisl ornare aliquet.",
-"Quisque interdum metus et magna commodo, at ultrices eros sagittis."]
-
 const useChatsStore = create<ChatsState>((set, get) => ({
   chatList: [],
 	loadingChats:true,

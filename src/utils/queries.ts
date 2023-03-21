@@ -50,3 +50,26 @@ export const getUser = /* GraphQL */ `
 	}
 }
 `;
+export const getChatRoomMessages = /* GraphQL */ `
+	query GetChatRoomMessages($id: ID!) {
+  getChatRoom(id: $id) {
+    ChatRoomMessages(limit: 50) {
+      items {
+        userID
+        messageType
+        messageToSearc
+        message
+        id
+        createdAt
+      }
+    }
+    updatedAt
+  }
+}
+`;
+export const simpleUpdateChatRoom = /* GraphQL */ `
+mutation SimpleUpdateChatRoom($_version: Int!, $chatRoomLastMessageId: ID!, $id: ID!) {
+	updateChatRoom(input: {id: $id, chatRoomLastMessageId: $chatRoomLastMessageId, _version: $_version}) {
+		updatedAt
+	}
+}`;
