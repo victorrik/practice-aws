@@ -29,7 +29,7 @@ const ChatList = () => {
 			ListEmptyComponent={
 				chatsStore.loadingChats? 
 				<View style={styles.emptyContainer} >
-					<Text style={styles.emptyText} >Loading messages...</Text>
+					<Text style={styles.emptyText} >Loading chats...</Text>
 				</View>
 				:
 				<View style={styles.emptyContainer} >

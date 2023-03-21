@@ -4,6 +4,11 @@ import { stringDate } from '@utils/functions'
 import { ChatPreview, VNavigationProps } from '@AppTypes'
 import { useNavigation } from '@react-navigation/native'
 import useChatsStore from '@stores/useChatsStore'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+dayjs.extend(relativeTime)
+
 interface ContactCellProps extends ChatPreview {
 	
 }
@@ -22,10 +27,10 @@ const ContactCell = (props:ContactCellProps) => {
 			</View>
 			<View style={styles.data} >
 				<Text style={styles.nameText} numberOfLines={1}  ellipsizeMode="tail" >{props.user.name}</Text>
-				<Text style={styles.messageText} numberOfLines={2}  ellipsizeMode="tail" >{props.message}</Text>
+				{/* <Text style={styles.messageText} numberOfLines={2}  ellipsizeMode="tail" >{props.message}</Text> */}
 			</View>
 			<View style={styles.extras} >
-				<Text style={styles.dateText} >{stringDate(props.messageLastDate,"HH:mm")}</Text>
+				<Text style={styles.dateText} >{dayjs(props.messageLastDate).fromNow()}</Text>
 			</View>
 		</Pressable>
 	)

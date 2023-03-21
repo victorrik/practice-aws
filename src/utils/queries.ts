@@ -6,6 +6,7 @@ export const getUserChatRooms = /* GraphQL */ `
       items {
         chatRoom {
           id
+					updatedAt
           users {
             items {
               user {
@@ -51,19 +52,16 @@ export const getUser = /* GraphQL */ `
 }
 `;
 export const getChatRoomMessages = /* GraphQL */ `
-	query GetChatRoomMessages($id: ID!) {
-  getChatRoom(id: $id) {
-    ChatRoomMessages(limit: 50) {
-      items {
-        userID
-        messageType
-        messageToSearc
-        message
-        id
-        createdAt
-      }
+	query GetChatRoomMessages($chatroomID: ID!, $sortDirection: ModelSortDirection!) {
+		listMessagesByChatRoom(chatroomID: $chatroomID, sortDirection: $sortDirection) {
+    items {
+      message
+      createdAt
+      id
+      messageToSearc
+      messageType
+			userID
     }
-    updatedAt
   }
 }
 `;

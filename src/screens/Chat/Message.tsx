@@ -42,10 +42,10 @@ const styles = StyleSheet.create({
 		borderTopStartRadius:0
 	},
 	textMessage:{
-
+		fontSize:16
 	},
 	textDate:{
-		fontSize:10,
+		fontSize:8,
 		fontWeight:"700"
 	}
 })

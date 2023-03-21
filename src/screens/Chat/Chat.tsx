@@ -1,5 +1,5 @@
 import { FlatList, Image, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import useChatsStore from '@stores/useChatsStore'
 import { SOME_COLORS } from '@utils/constants'
@@ -9,19 +9,18 @@ import { Pressable } from 'react-native'
 import { Message as MessageType, RootStackScreenProps } from '@AppTypes'
 import Message from './Message'
 import { API, graphqlOperation } from 'aws-amplify'
-import { GraphQLQuery } from '@aws-amplify/api'
-import { CreateMessageMutation, GetChatRoomQuery, UpdateChatRoomMutation } from 'src/API'
+import { GraphQLQuery, GraphQLSubscription } from '@aws-amplify/api'
+import { CreateMessageMutation, GetChatRoomQuery, OnCreateMessageSubscription, UpdateChatRoomMutation } from 'src/API'
 import { createMessage, updateChatRoom } from '@VGraphql/mutations'
 import useUserStore from '@stores/useUserStore'
 import { checkInput } from '@utils/inputValid'
 
 import { getChatRoomMessages, simpleUpdateChatRoom } from '@utils/queries'
+import { onCreateMessage } from '@VGraphql/subscriptions'
 
 type GetChatRoomMessagesQuery = {
-  getChatRoom: {
-    ChatRoomMessages: {
-      items:Array<MessageType>
-    },
+  listMessagesByChatRoom: {
+    items:Array<MessageType>
     updatedAt: string
   }
 }
@@ -60,27 +59,52 @@ const HeaderView = (props: any) => {
 	)
 }
 const Chat = ({ navigation }: RootStackScreenProps<"Chat">) => {
+	const listRef = useRef<FlatList>(null)
 	const insets = useSafeAreaInsets()
 	const chatsStore = useChatsStore()
 	const userStore = useUserStore(state => state.user)
 	const currentInfo = chatsStore.currentChat
-
+	console.log(userStore.id)
 	const [newMessage, setNewMessage] = useState("")
 	const [messages, setMessages] = useState<Array<MessageType>>([]);
 	useEffect(() => {
 
 		const getMessages = async () => {
 			try {
-				const resultMessages = await API.graphql<GraphQLQuery<GetChatRoomMessagesQuery>>(graphqlOperation(getChatRoomMessages, { id: currentInfo.id }))
-				
-				setMessages(resultMessages.data.getChatRoom.ChatRoomMessages.items)
+				const resultMessages = await API.graphql<GraphQLQuery<GetChatRoomMessagesQuery>>(graphqlOperation(getChatRoomMessages, { 
+					chatroomID:currentInfo.id,
+					sortDirection:"ASC" })) 
+				setMessages(resultMessages.data.listMessagesByChatRoom.items)
 			} catch (error) {
-
+			console.log("error",error)
 			}
 		}
-		getMessages()
+		getMessages() 
+		const subscription = API.graphql<GraphQLSubscription<OnCreateMessageSubscription>>(graphqlOperation(onCreateMessage,{
+			filter:{chatroomID:{eq:currentInfo.id}}
+		}))
+		.subscribe({
+			next({value}) {
+				
+				setMessages((m)=>[...m,{
+					id:value.data.onCreateMessage.id,
+					userID:value.data.onCreateMessage.userID,
+					message:value.data.onCreateMessage.message,
+					messageToSearc:value.data.onCreateMessage.messageToSearc,
+					messageType:value.data.onCreateMessage.messageType,
+					createdAt:value.data.onCreateMessage.createdAt
+				}])
+				setTimeout(()=>{
+					listRef.current.scrollToEnd({animated:true})
+				},300)
+			},
+			error(errorValue) {
+				console.log("errorValue",JSON.stringify(errorValue))
+			},
+		})
 		return () => {
-
+			subscription.unsubscribe()
+			console.log("unsubscribe")
 		}
 	}, [])
 
@@ -97,6 +121,9 @@ const Chat = ({ navigation }: RootStackScreenProps<"Chat">) => {
 		} 
 		try {
 			const result = await API.graphql<GraphQLQuery<CreateMessageMutation>>(graphqlOperation(createMessage,{input:newMessageBuild}))
+
+			setNewMessage("")
+
 			const lastVersion = await API.graphql<GraphQLQuery<GetChatRoomLastVersionQuery>>(graphqlOperation(`query GetLasVersionChatRoom($id: ID!) {
 				getChatRoom(id: $id) {
 					_version
@@ -121,6 +148,7 @@ const Chat = ({ navigation }: RootStackScreenProps<"Chat">) => {
 			<View style={{ flex: 1, paddingBottom: insets.bottom + (Platform.OS === "ios" ? 0 : 8) }} >
 				<HeaderView navigation={navigation} />
 				<FlatList
+					ref={listRef}
 					data={messages}
 					contentContainerStyle={{ padding:16 }}
 					renderItem={({ item }) => <Message {...item} />}

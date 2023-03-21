@@ -15,6 +15,7 @@ type GetUserChatRoomsQuery = {
 			items:Array<{
 				chatRoom:{
 						id:string
+						updatedAt:string
 						users:{
 						items:Array<{
 							user:{
@@ -30,7 +31,6 @@ type GetUserChatRoomsQuery = {
 					}
 					LastMessage?:{
 						id:string
-						createdAt:string
 						message:string
 						messageToSearc:string
 						messageType:string
@@ -80,11 +80,11 @@ const useChatsStore = create<ChatsState>((set, get) => ({
 					message:chatRoom.LastMessage?.message,
 					//@ts-ignore
 					messageType:chatRoom.LastMessage?.messageType,
-					messageLastDate: new Date(chatRoom.LastMessage?chatRoom.LastMessage.createdAt:null).getTime()
+					messageLastDate: new Date(chatRoom.updatedAt).getTime()
 				}
 			})
 		 
-			set({loadingChats:false,chatList:resumeResult as ChatPreview[]})
+			set({loadingChats:false,chatList:resumeResult.sort((a,b)=>b.messageLastDate - a.messageLastDate) as ChatPreview[]})
 			return true
 		} catch (error) {
 			console.log("error-->",error)

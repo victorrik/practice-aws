@@ -4,18 +4,22 @@
 
 export type CreateChatRoomInput = {
   id?: string | null,
+  name?: string | null,
+  image?: string | null,
   _version?: number | null,
   chatRoomLastMessageId?: string | null,
 };
 
 export type ModelChatRoomConditionInput = {
+  name?: ModelStringInput | null,
+  image?: ModelStringInput | null,
   and?: Array< ModelChatRoomConditionInput | null > | null,
   or?: Array< ModelChatRoomConditionInput | null > | null,
   not?: ModelChatRoomConditionInput | null,
   chatRoomLastMessageId?: ModelIDInput | null,
 };
 
-export type ModelIDInput = {
+export type ModelStringInput = {
   ne?: string | null,
   eq?: string | null,
   le?: string | null,
@@ -55,9 +59,27 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
+export type ModelIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
+
 export type ChatRoom = {
   __typename: "ChatRoom",
   id: string,
+  name?: string | null,
+  image?: string | null,
   ChatRoomMessages?: ModelMessageConnection | null,
   users?: ModelUserChatRoomConnection | null,
   LastMessage?: Message | null,
@@ -79,12 +101,12 @@ export type ModelMessageConnection = {
 export type Message = {
   __typename: "Message",
   id: string,
+  createdAt: string,
   message: string,
   messageType: string,
   chatroomID: string,
   userID: string,
   messageToSearc: string,
-  createdAt: string,
   updatedAt: string,
   _version: number,
   _deleted?: boolean | null,
@@ -139,6 +161,8 @@ export type VFile = {
 
 export type UpdateChatRoomInput = {
   id: string,
+  name?: string | null,
+  image?: string | null,
   _version?: number | null,
   chatRoomLastMessageId?: string | null,
 };
@@ -150,6 +174,7 @@ export type DeleteChatRoomInput = {
 
 export type CreateMessageInput = {
   id?: string | null,
+  createdAt?: string | null,
   message: string,
   messageType: string,
   chatroomID: string,
@@ -159,6 +184,7 @@ export type CreateMessageInput = {
 };
 
 export type ModelMessageConditionInput = {
+  createdAt?: ModelStringInput | null,
   message?: ModelStringInput | null,
   messageType?: ModelStringInput | null,
   chatroomID?: ModelIDInput | null,
@@ -169,24 +195,9 @@ export type ModelMessageConditionInput = {
   not?: ModelMessageConditionInput | null,
 };
 
-export type ModelStringInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
-};
-
 export type UpdateMessageInput = {
   id: string,
+  createdAt?: string | null,
   message?: string | null,
   messageType?: string | null,
   chatroomID?: string | null,
@@ -269,6 +280,8 @@ export type DeleteUserChatRoomInput = {
 
 export type ModelChatRoomFilterInput = {
   id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  image?: ModelStringInput | null,
   and?: Array< ModelChatRoomFilterInput | null > | null,
   or?: Array< ModelChatRoomFilterInput | null > | null,
   not?: ModelChatRoomFilterInput | null,
@@ -284,6 +297,7 @@ export type ModelChatRoomConnection = {
 
 export type ModelMessageFilterInput = {
   id?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
   message?: ModelStringInput | null,
   messageType?: ModelStringInput | null,
   chatroomID?: ModelIDInput | null,
@@ -292,6 +306,16 @@ export type ModelMessageFilterInput = {
   and?: Array< ModelMessageFilterInput | null > | null,
   or?: Array< ModelMessageFilterInput | null > | null,
   not?: ModelMessageFilterInput | null,
+};
+
+export type ModelStringKeyConditionInput = {
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
 };
 
 export enum ModelSortDirection {
@@ -328,6 +352,8 @@ export type ModelUserChatRoomFilterInput = {
 
 export type ModelSubscriptionChatRoomFilterInput = {
   id?: ModelSubscriptionIDInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  image?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionChatRoomFilterInput | null > | null,
   or?: Array< ModelSubscriptionChatRoomFilterInput | null > | null,
 };
@@ -347,17 +373,6 @@ export type ModelSubscriptionIDInput = {
   notIn?: Array< string | null > | null,
 };
 
-export type ModelSubscriptionMessageFilterInput = {
-  id?: ModelSubscriptionIDInput | null,
-  message?: ModelSubscriptionStringInput | null,
-  messageType?: ModelSubscriptionStringInput | null,
-  chatroomID?: ModelSubscriptionIDInput | null,
-  userID?: ModelSubscriptionIDInput | null,
-  messageToSearc?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionMessageFilterInput | null > | null,
-  or?: Array< ModelSubscriptionMessageFilterInput | null > | null,
-};
-
 export type ModelSubscriptionStringInput = {
   ne?: string | null,
   eq?: string | null,
@@ -371,6 +386,18 @@ export type ModelSubscriptionStringInput = {
   beginsWith?: string | null,
   in?: Array< string | null > | null,
   notIn?: Array< string | null > | null,
+};
+
+export type ModelSubscriptionMessageFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  message?: ModelSubscriptionStringInput | null,
+  messageType?: ModelSubscriptionStringInput | null,
+  chatroomID?: ModelSubscriptionIDInput | null,
+  userID?: ModelSubscriptionIDInput | null,
+  messageToSearc?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionMessageFilterInput | null > | null,
+  or?: Array< ModelSubscriptionMessageFilterInput | null > | null,
 };
 
 export type ModelSubscriptionUserFilterInput = {
@@ -399,17 +426,19 @@ export type CreateChatRoomMutation = {
   createChatRoom?:  {
     __typename: "ChatRoom",
     id: string,
+    name?: string | null,
+    image?: string | null,
     ChatRoomMessages?:  {
       __typename: "ModelMessageConnection",
       items:  Array< {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -437,12 +466,12 @@ export type CreateChatRoomMutation = {
     LastMessage?:  {
       __typename: "Message",
       id: string,
+      createdAt: string,
       message: string,
       messageType: string,
       chatroomID: string,
       userID: string,
       messageToSearc: string,
-      createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
@@ -466,17 +495,19 @@ export type UpdateChatRoomMutation = {
   updateChatRoom?:  {
     __typename: "ChatRoom",
     id: string,
+    name?: string | null,
+    image?: string | null,
     ChatRoomMessages?:  {
       __typename: "ModelMessageConnection",
       items:  Array< {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -504,12 +535,12 @@ export type UpdateChatRoomMutation = {
     LastMessage?:  {
       __typename: "Message",
       id: string,
+      createdAt: string,
       message: string,
       messageType: string,
       chatroomID: string,
       userID: string,
       messageToSearc: string,
-      createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
@@ -533,17 +564,19 @@ export type DeleteChatRoomMutation = {
   deleteChatRoom?:  {
     __typename: "ChatRoom",
     id: string,
+    name?: string | null,
+    image?: string | null,
     ChatRoomMessages?:  {
       __typename: "ModelMessageConnection",
       items:  Array< {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -571,12 +604,12 @@ export type DeleteChatRoomMutation = {
     LastMessage?:  {
       __typename: "Message",
       id: string,
+      createdAt: string,
       message: string,
       messageType: string,
       chatroomID: string,
       userID: string,
       messageToSearc: string,
-      createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
@@ -600,12 +633,12 @@ export type CreateMessageMutation = {
   createMessage?:  {
     __typename: "Message",
     id: string,
+    createdAt: string,
     message: string,
     messageType: string,
     chatroomID: string,
     userID: string,
     messageToSearc: string,
-    createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
@@ -622,12 +655,12 @@ export type UpdateMessageMutation = {
   updateMessage?:  {
     __typename: "Message",
     id: string,
+    createdAt: string,
     message: string,
     messageType: string,
     chatroomID: string,
     userID: string,
     messageToSearc: string,
-    createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
@@ -644,12 +677,12 @@ export type DeleteMessageMutation = {
   deleteMessage?:  {
     __typename: "Message",
     id: string,
+    createdAt: string,
     message: string,
     messageType: string,
     chatroomID: string,
     userID: string,
     messageToSearc: string,
-    createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
@@ -681,12 +714,12 @@ export type CreateUserMutation = {
       items:  Array< {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -744,12 +777,12 @@ export type UpdateUserMutation = {
       items:  Array< {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -807,12 +840,12 @@ export type DeleteUserMutation = {
       items:  Array< {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -860,6 +893,8 @@ export type CreateUserChatRoomMutation = {
     chatRoom:  {
       __typename: "ChatRoom",
       id: string,
+      name?: string | null,
+      image?: string | null,
       ChatRoomMessages?:  {
         __typename: "ModelMessageConnection",
         nextToken?: string | null,
@@ -873,12 +908,12 @@ export type CreateUserChatRoomMutation = {
       LastMessage?:  {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -943,6 +978,8 @@ export type UpdateUserChatRoomMutation = {
     chatRoom:  {
       __typename: "ChatRoom",
       id: string,
+      name?: string | null,
+      image?: string | null,
       ChatRoomMessages?:  {
         __typename: "ModelMessageConnection",
         nextToken?: string | null,
@@ -956,12 +993,12 @@ export type UpdateUserChatRoomMutation = {
       LastMessage?:  {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -1026,6 +1063,8 @@ export type DeleteUserChatRoomMutation = {
     chatRoom:  {
       __typename: "ChatRoom",
       id: string,
+      name?: string | null,
+      image?: string | null,
       ChatRoomMessages?:  {
         __typename: "ModelMessageConnection",
         nextToken?: string | null,
@@ -1039,12 +1078,12 @@ export type DeleteUserChatRoomMutation = {
       LastMessage?:  {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -1103,17 +1142,19 @@ export type GetChatRoomQuery = {
   getChatRoom?:  {
     __typename: "ChatRoom",
     id: string,
+    name?: string | null,
+    image?: string | null,
     ChatRoomMessages?:  {
       __typename: "ModelMessageConnection",
       items:  Array< {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -1141,12 +1182,12 @@ export type GetChatRoomQuery = {
     LastMessage?:  {
       __typename: "Message",
       id: string,
+      createdAt: string,
       message: string,
       messageType: string,
       chatroomID: string,
       userID: string,
       messageToSearc: string,
-      createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
@@ -1173,6 +1214,8 @@ export type ListChatRoomsQuery = {
     items:  Array< {
       __typename: "ChatRoom",
       id: string,
+      name?: string | null,
+      image?: string | null,
       ChatRoomMessages?:  {
         __typename: "ModelMessageConnection",
         nextToken?: string | null,
@@ -1186,12 +1229,12 @@ export type ListChatRoomsQuery = {
       LastMessage?:  {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -1222,6 +1265,8 @@ export type SyncChatRoomsQuery = {
     items:  Array< {
       __typename: "ChatRoom",
       id: string,
+      name?: string | null,
+      image?: string | null,
       ChatRoomMessages?:  {
         __typename: "ModelMessageConnection",
         nextToken?: string | null,
@@ -1235,12 +1280,12 @@ export type SyncChatRoomsQuery = {
       LastMessage?:  {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -1266,12 +1311,12 @@ export type GetMessageQuery = {
   getMessage?:  {
     __typename: "Message",
     id: string,
+    createdAt: string,
     message: string,
     messageType: string,
     chatroomID: string,
     userID: string,
     messageToSearc: string,
-    createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
@@ -1291,12 +1336,12 @@ export type ListMessagesQuery = {
     items:  Array< {
       __typename: "Message",
       id: string,
+      createdAt: string,
       message: string,
       messageType: string,
       chatroomID: string,
       userID: string,
       messageToSearc: string,
-      createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
@@ -1320,12 +1365,12 @@ export type SyncMessagesQuery = {
     items:  Array< {
       __typename: "Message",
       id: string,
+      createdAt: string,
       message: string,
       messageType: string,
       chatroomID: string,
       userID: string,
       messageToSearc: string,
-      createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
@@ -1336,26 +1381,27 @@ export type SyncMessagesQuery = {
   } | null,
 };
 
-export type MessagesByChatroomIDQueryVariables = {
+export type ListMessagesByChatRoomQueryVariables = {
   chatroomID: string,
+  createdAt?: ModelStringKeyConditionInput | null,
   sortDirection?: ModelSortDirection | null,
   filter?: ModelMessageFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type MessagesByChatroomIDQuery = {
-  messagesByChatroomID?:  {
+export type ListMessagesByChatRoomQuery = {
+  listMessagesByChatRoom?:  {
     __typename: "ModelMessageConnection",
     items:  Array< {
       __typename: "Message",
       id: string,
+      createdAt: string,
       message: string,
       messageType: string,
       chatroomID: string,
       userID: string,
       messageToSearc: string,
-      createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
@@ -1380,12 +1426,12 @@ export type MessagesByUserIDQuery = {
     items:  Array< {
       __typename: "Message",
       id: string,
+      createdAt: string,
       message: string,
       messageType: string,
       chatroomID: string,
       userID: string,
       messageToSearc: string,
-      createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
@@ -1419,12 +1465,12 @@ export type GetUserQuery = {
       items:  Array< {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -1560,6 +1606,8 @@ export type GetUserChatRoomQuery = {
     chatRoom:  {
       __typename: "ChatRoom",
       id: string,
+      name?: string | null,
+      image?: string | null,
       ChatRoomMessages?:  {
         __typename: "ModelMessageConnection",
         nextToken?: string | null,
@@ -1573,12 +1621,12 @@ export type GetUserChatRoomQuery = {
       LastMessage?:  {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -1646,6 +1694,8 @@ export type ListUserChatRoomsQuery = {
       chatRoom:  {
         __typename: "ChatRoom",
         id: string,
+        name?: string | null,
+        image?: string | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -1694,6 +1744,8 @@ export type SyncUserChatRoomsQuery = {
       chatRoom:  {
         __typename: "ChatRoom",
         id: string,
+        name?: string | null,
+        image?: string | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -1743,6 +1795,8 @@ export type UserChatRoomsByChatRoomIdQuery = {
       chatRoom:  {
         __typename: "ChatRoom",
         id: string,
+        name?: string | null,
+        image?: string | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -1792,6 +1846,8 @@ export type UserChatRoomsByUserIdQuery = {
       chatRoom:  {
         __typename: "ChatRoom",
         id: string,
+        name?: string | null,
+        image?: string | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -1830,17 +1886,19 @@ export type OnCreateChatRoomSubscription = {
   onCreateChatRoom?:  {
     __typename: "ChatRoom",
     id: string,
+    name?: string | null,
+    image?: string | null,
     ChatRoomMessages?:  {
       __typename: "ModelMessageConnection",
       items:  Array< {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -1868,12 +1926,12 @@ export type OnCreateChatRoomSubscription = {
     LastMessage?:  {
       __typename: "Message",
       id: string,
+      createdAt: string,
       message: string,
       messageType: string,
       chatroomID: string,
       userID: string,
       messageToSearc: string,
-      createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
@@ -1896,17 +1954,19 @@ export type OnUpdateChatRoomSubscription = {
   onUpdateChatRoom?:  {
     __typename: "ChatRoom",
     id: string,
+    name?: string | null,
+    image?: string | null,
     ChatRoomMessages?:  {
       __typename: "ModelMessageConnection",
       items:  Array< {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -1934,12 +1994,12 @@ export type OnUpdateChatRoomSubscription = {
     LastMessage?:  {
       __typename: "Message",
       id: string,
+      createdAt: string,
       message: string,
       messageType: string,
       chatroomID: string,
       userID: string,
       messageToSearc: string,
-      createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
@@ -1962,17 +2022,19 @@ export type OnDeleteChatRoomSubscription = {
   onDeleteChatRoom?:  {
     __typename: "ChatRoom",
     id: string,
+    name?: string | null,
+    image?: string | null,
     ChatRoomMessages?:  {
       __typename: "ModelMessageConnection",
       items:  Array< {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -2000,12 +2062,12 @@ export type OnDeleteChatRoomSubscription = {
     LastMessage?:  {
       __typename: "Message",
       id: string,
+      createdAt: string,
       message: string,
       messageType: string,
       chatroomID: string,
       userID: string,
       messageToSearc: string,
-      createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
@@ -2028,12 +2090,12 @@ export type OnCreateMessageSubscription = {
   onCreateMessage?:  {
     __typename: "Message",
     id: string,
+    createdAt: string,
     message: string,
     messageType: string,
     chatroomID: string,
     userID: string,
     messageToSearc: string,
-    createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
@@ -2049,12 +2111,12 @@ export type OnUpdateMessageSubscription = {
   onUpdateMessage?:  {
     __typename: "Message",
     id: string,
+    createdAt: string,
     message: string,
     messageType: string,
     chatroomID: string,
     userID: string,
     messageToSearc: string,
-    createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
@@ -2070,12 +2132,12 @@ export type OnDeleteMessageSubscription = {
   onDeleteMessage?:  {
     __typename: "Message",
     id: string,
+    createdAt: string,
     message: string,
     messageType: string,
     chatroomID: string,
     userID: string,
     messageToSearc: string,
-    createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
@@ -2106,12 +2168,12 @@ export type OnCreateUserSubscription = {
       items:  Array< {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -2168,12 +2230,12 @@ export type OnUpdateUserSubscription = {
       items:  Array< {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -2230,12 +2292,12 @@ export type OnDeleteUserSubscription = {
       items:  Array< {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -2282,6 +2344,8 @@ export type OnCreateUserChatRoomSubscription = {
     chatRoom:  {
       __typename: "ChatRoom",
       id: string,
+      name?: string | null,
+      image?: string | null,
       ChatRoomMessages?:  {
         __typename: "ModelMessageConnection",
         nextToken?: string | null,
@@ -2295,12 +2359,12 @@ export type OnCreateUserChatRoomSubscription = {
       LastMessage?:  {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -2364,6 +2428,8 @@ export type OnUpdateUserChatRoomSubscription = {
     chatRoom:  {
       __typename: "ChatRoom",
       id: string,
+      name?: string | null,
+      image?: string | null,
       ChatRoomMessages?:  {
         __typename: "ModelMessageConnection",
         nextToken?: string | null,
@@ -2377,12 +2443,12 @@ export type OnUpdateUserChatRoomSubscription = {
       LastMessage?:  {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
@@ -2446,6 +2512,8 @@ export type OnDeleteUserChatRoomSubscription = {
     chatRoom:  {
       __typename: "ChatRoom",
       id: string,
+      name?: string | null,
+      image?: string | null,
       ChatRoomMessages?:  {
         __typename: "ModelMessageConnection",
         nextToken?: string | null,
@@ -2459,12 +2527,12 @@ export type OnDeleteUserChatRoomSubscription = {
       LastMessage?:  {
         __typename: "Message",
         id: string,
+        createdAt: string,
         message: string,
         messageType: string,
         chatroomID: string,
         userID: string,
         messageToSearc: string,
-        createdAt: string,
         updatedAt: string,
         _version: number,
         _deleted?: boolean | null,
