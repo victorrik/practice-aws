@@ -3,24 +3,25 @@
   "cognitoConfig": {
     "identityPoolName": "testAuthIdentityPool",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "practi2f87ab8b",
+    "resourceNameTruncated": "practi4ff401de",
     "userPoolName": "PracticeApp",
     "autoVerifiedAttributes": [
       "email"
     ],
-    "mfaConfiguration": "OPTIONAL",
+    "mfaConfiguration": "OFF",
     "mfaTypes": [
       "SMS Text Message"
     ],
-    "smsAuthenticationMessage": "Your login code is {####}",
+    "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
-    "emailVerificationSubject": "Verification code: {####}",
-    "emailVerificationMessage": "Verification code: {####}",
+    "emailVerificationSubject": "Verification code",
+    "emailVerificationMessage": "<body id=\"iqkw\" style=\"box-sizing: border-box; margin: 0;\">\n  <table class=\"main-body\" id=\"i5bw\" style=\"box-sizing: border-box; min-height: 150px; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; width: 100%; height: 100%; background-color: rgb(234, 236, 237);\" width=\"100%\" height=\"100%\" bgcolor=\"rgb(234, 236, 237)\">\n    <tbody style=\"box-sizing: border-box;\">\n      <tr class=\"row\" style=\"box-sizing: border-box; vertical-align: top;\" valign=\"top\">\n        <td class=\"main-body-cell\" id=\"i4gt\" style=\"box-sizing: border-box;\">\n          <table class=\"table100 c1357\" id=\"ih0il\" style=\"box-sizing: border-box; min-height: 150px; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; height: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; border-collapse: separate; border-radius: 20px 20px 20px 20px; width: 90%; max-width: 550px; margin: 0px auto 0px auto;\" width=\"90%\" height=\"0\">\n            <tbody style=\"box-sizing: border-box;\">\n              <tr style=\"box-sizing: border-box;\">\n                <td class=\"card-content\" id=\"i45dl\" style=\"box-sizing: border-box; font-size: 13px; line-height: 20px; color: rgb(111, 119, 125); padding-top: 10px; padding-right: 20px; padding-bottom: 0px; padding-left: 20px; vertical-align: top; padding: 0px 20px 0px 20px; border: 1px solid #566573; border-radius: 20px 20px 20px 20px; background-color: #ffffff; text-align: center; font-family: Tahoma, Geneva, sans-serif;\" valign=\"top\" bgcolor=\"#ffffff\" align=\"center\">\n                  <h1 id=\"i08pf\" class=\"card-title\" style=\"box-sizing: border-box; font-size: 25px; font-weight: 300; color: rgb(68, 68, 68);\">Your verification code is\n                  </h1>\n                  <h1 class=\"card-title\" id=\"ifbul\" style=\"box-sizing: border-box; font-size: 25px; font-weight: 300; color: rgb(68, 68, 68);\">\n                    <strong style=\"box-sizing: border-box;\">{####}</strong>\n                  </h1>\n                  <p class=\"card-text\" id=\"iuva2\" style=\"box-sizing: border-box;\">From that chat app that you recently Sign Up\n                  </p>\n                </td>\n              </tr>\n            </tbody>\n          </table>\n        </td>\n      </tr>\n    </tbody>\n  </table>\n</body>",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 6,
     "passwordPolicyCharacters": [
       "Requires Lowercase",
       "Requires Numbers",
+      "Requires Symbols",
       "Requires Uppercase"
     ],
     "requiredAttributes": [],
@@ -29,9 +30,9 @@
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [],
     "userpoolClientReadAttributes": [],
-    "userpoolClientLambdaRole": "Practi2f87ab8b_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "Practi4ff401de_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "2f87ab8b",
+    "sharedId": "4ff401de",
     "resourceName": "PracticeApp",
     "authSelections": "identityPoolAndUserPool",
     "serviceName": "Cognito",
@@ -45,6 +46,21 @@
     "thirdPartyAuth": false,
     "authProviders": [],
     "usernameCaseSensitive": false,
-    "useEnabledMfas": true
+    "useEnabledMfas": true,
+    "authRoleArn": {
+      "Fn::GetAtt": [
+        "AuthRole",
+        "Arn"
+      ]
+    },
+    "unauthRoleArn": {
+      "Fn::GetAtt": [
+        "UnauthRole",
+        "Arn"
+      ]
+    },
+    "breakCircularDependency": true,
+    "dependsOn": [],
+    "hostedUI": false
   }
 }

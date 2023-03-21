@@ -16,6 +16,7 @@ export const createChatRoom = /* GraphQL */ `
           messageType
           chatroomID
           userID
+          messageToSearc
           createdAt
           updatedAt
           _version
@@ -45,6 +46,7 @@ export const createChatRoom = /* GraphQL */ `
         messageType
         chatroomID
         userID
+        messageToSearc
         createdAt
         updatedAt
         _version
@@ -74,6 +76,7 @@ export const updateChatRoom = /* GraphQL */ `
           messageType
           chatroomID
           userID
+          messageToSearc
           createdAt
           updatedAt
           _version
@@ -103,6 +106,7 @@ export const updateChatRoom = /* GraphQL */ `
         messageType
         chatroomID
         userID
+        messageToSearc
         createdAt
         updatedAt
         _version
@@ -132,6 +136,7 @@ export const deleteChatRoom = /* GraphQL */ `
           messageType
           chatroomID
           userID
+          messageToSearc
           createdAt
           updatedAt
           _version
@@ -161,6 +166,7 @@ export const deleteChatRoom = /* GraphQL */ `
         messageType
         chatroomID
         userID
+        messageToSearc
         createdAt
         updatedAt
         _version
@@ -187,6 +193,7 @@ export const createMessage = /* GraphQL */ `
       messageType
       chatroomID
       userID
+      messageToSearc
       createdAt
       updatedAt
       _version
@@ -206,6 +213,7 @@ export const updateMessage = /* GraphQL */ `
       messageType
       chatroomID
       userID
+      messageToSearc
       createdAt
       updatedAt
       _version
@@ -225,6 +233,7 @@ export const deleteMessage = /* GraphQL */ `
       messageType
       chatroomID
       userID
+      messageToSearc
       createdAt
       updatedAt
       _version
@@ -256,6 +265,7 @@ export const createUser = /* GraphQL */ `
           messageType
           chatroomID
           userID
+          messageToSearc
           createdAt
           updatedAt
           _version
@@ -279,6 +289,7 @@ export const createUser = /* GraphQL */ `
         nextToken
         startedAt
       }
+      nameToSearch
       createdAt
       updatedAt
       _version
@@ -310,6 +321,7 @@ export const updateUser = /* GraphQL */ `
           messageType
           chatroomID
           userID
+          messageToSearc
           createdAt
           updatedAt
           _version
@@ -333,6 +345,7 @@ export const updateUser = /* GraphQL */ `
         nextToken
         startedAt
       }
+      nameToSearch
       createdAt
       updatedAt
       _version
@@ -364,6 +377,7 @@ export const deleteUser = /* GraphQL */ `
           messageType
           chatroomID
           userID
+          messageToSearc
           createdAt
           updatedAt
           _version
@@ -387,6 +401,7 @@ export const deleteUser = /* GraphQL */ `
         nextToken
         startedAt
       }
+      nameToSearch
       createdAt
       updatedAt
       _version
@@ -420,6 +435,7 @@ export const createUserChatRoom = /* GraphQL */ `
           messageType
           chatroomID
           userID
+          messageToSearc
           createdAt
           updatedAt
           _version
@@ -452,6 +468,7 @@ export const createUserChatRoom = /* GraphQL */ `
           nextToken
           startedAt
         }
+        nameToSearch
         createdAt
         updatedAt
         _version
@@ -491,6 +508,7 @@ export const updateUserChatRoom = /* GraphQL */ `
           messageType
           chatroomID
           userID
+          messageToSearc
           createdAt
           updatedAt
           _version
@@ -523,6 +541,7 @@ export const updateUserChatRoom = /* GraphQL */ `
           nextToken
           startedAt
         }
+        nameToSearch
         createdAt
         updatedAt
         _version
@@ -562,6 +581,7 @@ export const deleteUserChatRoom = /* GraphQL */ `
           messageType
           chatroomID
           userID
+          messageToSearc
           createdAt
           updatedAt
           _version
@@ -594,6 +614,7 @@ export const deleteUserChatRoom = /* GraphQL */ `
           nextToken
           startedAt
         }
+        nameToSearch
         createdAt
         updatedAt
         _version

@@ -27,8 +27,12 @@ export type User = {
   name: string;
   photoProfile: VFile | null;
   status: string;
+	createdAt: any
+	updatedAt: any
 }
-export interface ChatPreview extends User {
+export interface ChatPreview{
+	id:string
+	user:Pick<User,"name"| "id" | "photoProfile" | "status">
 	message:string
 	messageLastDate:number
 	messageType:"text"|"file"

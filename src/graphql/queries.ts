@@ -13,6 +13,7 @@ export const getChatRoom = /* GraphQL */ `
           messageType
           chatroomID
           userID
+          messageToSearc
           createdAt
           updatedAt
           _version
@@ -42,6 +43,7 @@ export const getChatRoom = /* GraphQL */ `
         messageType
         chatroomID
         userID
+        messageToSearc
         createdAt
         updatedAt
         _version
@@ -80,6 +82,7 @@ export const listChatRooms = /* GraphQL */ `
           messageType
           chatroomID
           userID
+          messageToSearc
           createdAt
           updatedAt
           _version
@@ -127,6 +130,7 @@ export const syncChatRooms = /* GraphQL */ `
           messageType
           chatroomID
           userID
+          messageToSearc
           createdAt
           updatedAt
           _version
@@ -153,6 +157,7 @@ export const getMessage = /* GraphQL */ `
       messageType
       chatroomID
       userID
+      messageToSearc
       createdAt
       updatedAt
       _version
@@ -174,6 +179,7 @@ export const listMessages = /* GraphQL */ `
         messageType
         chatroomID
         userID
+        messageToSearc
         createdAt
         updatedAt
         _version
@@ -204,6 +210,7 @@ export const syncMessages = /* GraphQL */ `
         messageType
         chatroomID
         userID
+        messageToSearc
         createdAt
         updatedAt
         _version
@@ -236,6 +243,7 @@ export const messagesByChatroomID = /* GraphQL */ `
         messageType
         chatroomID
         userID
+        messageToSearc
         createdAt
         updatedAt
         _version
@@ -268,6 +276,7 @@ export const messagesByUserID = /* GraphQL */ `
         messageType
         chatroomID
         userID
+        messageToSearc
         createdAt
         updatedAt
         _version
@@ -299,6 +308,7 @@ export const getUser = /* GraphQL */ `
           messageType
           chatroomID
           userID
+          messageToSearc
           createdAt
           updatedAt
           _version
@@ -322,6 +332,7 @@ export const getUser = /* GraphQL */ `
         nextToken
         startedAt
       }
+      nameToSearch
       createdAt
       updatedAt
       _version
@@ -356,6 +367,7 @@ export const listUsers = /* GraphQL */ `
           nextToken
           startedAt
         }
+        nameToSearch
         createdAt
         updatedAt
         _version
@@ -399,6 +411,7 @@ export const syncUsers = /* GraphQL */ `
           nextToken
           startedAt
         }
+        nameToSearch
         createdAt
         updatedAt
         _version
@@ -432,6 +445,7 @@ export const getUserChatRoom = /* GraphQL */ `
           messageType
           chatroomID
           userID
+          messageToSearc
           createdAt
           updatedAt
           _version
@@ -464,6 +478,7 @@ export const getUserChatRoom = /* GraphQL */ `
           nextToken
           startedAt
         }
+        nameToSearch
         createdAt
         updatedAt
         _version
@@ -502,6 +517,7 @@ export const listUserChatRooms = /* GraphQL */ `
           id
           name
           status
+          nameToSearch
           createdAt
           updatedAt
           _version
@@ -549,6 +565,7 @@ export const syncUserChatRooms = /* GraphQL */ `
           id
           name
           status
+          nameToSearch
           createdAt
           updatedAt
           _version
@@ -598,6 +615,7 @@ export const userChatRoomsByChatRoomId = /* GraphQL */ `
           id
           name
           status
+          nameToSearch
           createdAt
           updatedAt
           _version
@@ -647,6 +665,7 @@ export const userChatRoomsByUserId = /* GraphQL */ `
           id
           name
           status
+          nameToSearch
           createdAt
           updatedAt
           _version

@@ -10,7 +10,6 @@ export type AmplifyDependentResourcesAttributes = {
     "PracticeApp": {
       "AppClientID": "string",
       "AppClientIDWeb": "string",
-      "CreatedSNSRole": "string",
       "IdentityPoolId": "string",
       "IdentityPoolName": "string",
       "UserPoolArn": "string",

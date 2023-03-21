@@ -2,18 +2,21 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { RootStackScreenProps } from '@AppTypes'
 import { Auth } from 'aws-amplify';
+import useUserStore from '@stores/useUserStore';
+
 const LaunchScreen = ({navigation}:RootStackScreenProps<"LaunchScreen">) => {
+	const userStore = useUserStore()
 	useEffect(()=>{
 		checkUserPersistence()
 	},[])
 	const checkUserPersistence = async() => { 
 		try {
-			 
 			const result = await Auth.currentAuthenticatedUser()
-			console.log("currentSession->result->",result)
+			const resultGet = await userStore.getUser(result.attributes.sub)
+			
 			navigation.replace("Home")
 		} catch (error) {
-			console.log("currentSession->error->",error)
+			console.log("currentAuthenticatedUser->error->",error)
 			navigation.replace("Login")
 		}
 	}

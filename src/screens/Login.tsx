@@ -1,30 +1,42 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { Alert, StyleSheet, Text, TextInput, View } from 'react-native'
+import React, { useRef, useState } from 'react'
 import { Button, SimpleHeaderScreens } from '@components'
 import { RootStackScreenProps } from '@AppTypes'
-import { Auth } from 'aws-amplify';
-import { API, graphqlOperation } from 'aws-amplify';
-import { listUsers } from "@VGraphql/queries"
+import { Auth } from 'aws-amplify'; 
+import { checkInput } from '@utils/inputValid';
+import { ButtonRef } from '@ComponentTypes';
+import useUserStore from '@stores/useUserStore';
 
 const Login = ({navigation}:RootStackScreenProps<"Login">) => {
+	const btnRef = useRef<ButtonRef>(null)
+	const userStore = useUserStore()
 	const [email, setEmail] = useState("")
-	const [password, setPassword] = useState("")
-	useEffect(() => {
-		const meow = async() => { 
-			const result = await API.graphql(graphqlOperation(listUsers))
-			console.log('result',result)
-		}
-		meow()
-	}, [])
-	
+	const [password, setPassword] = useState("") 
+	const [showPassword, setShowPassword] = useState(true);
 	const startLogin = async() => { 
+
+		if (checkInput(email)) {
+			Alert.alert("Error on input","Email cannot be empty")
+			return
+		}
+		if (checkInput(password)) {
+			Alert.alert("Error on input","Password cannot be empty")
+			return
+		}
+		btnRef.current?.setLoading(true)
 		try {
 			const user = await Auth.signIn(email, password);
-			console.log("user",user)
-			navigation.replace("Home")
+			const resultGet = await userStore.getUser(user.attributes.sub)
+			if (resultGet) {
+				navigation.replace("Home")	
+			}
 	} catch (error) {
-			console.log('error signing in', error);
+		
+			console.log('error signing', error);
+			console.log('error signing string', error.string);
+			console.log('error signing code', error.code);
 	}
+		btnRef.current?.setLoading(false)
 	}
 	const goToSignUp = () => { 
 		navigation.replace("SignUp")
@@ -40,6 +52,10 @@ const Login = ({navigation}:RootStackScreenProps<"Login">) => {
 						placeholder='Email' 
 						value={email}
 						onChangeText={value=>setEmail(value)}
+						inputMode="email"
+						autoCapitalize="none"
+						textContentType="emailAddress"
+						spellCheck
 					/>
 				</View>
 				<View>
@@ -49,9 +65,12 @@ const Login = ({navigation}:RootStackScreenProps<"Login">) => {
 						placeholder='Password' 
 						value={password}
 						onChangeText={value=>setPassword(value)}
+						autoCapitalize="none"
+						secureTextEntry={showPassword}
 					/>
+					<Text style={{marginTop:10}} onPress={()=>setShowPassword(b=>!b)} >Show pass</Text>
 				</View>
-				<Button title='Login' onPress={startLogin} />
+				<Button ref={btnRef} title='Login' onPress={startLogin} />
 				<Button title='New? go to sign Up' type="link" onPress={goToSignUp} />
 			</View>
 		</View>

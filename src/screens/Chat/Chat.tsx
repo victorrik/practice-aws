@@ -12,7 +12,7 @@ const Chat = () => {
 	const chatsStore = useChatsStore()
 	const bgColor = useMemo(() => SOME_COLORS[rndInterger(0,SOME_COLORS.length - 1)], [])
 	const currentInfo = chatsStore.currentChat
-	const photoProfile = currentInfo.photoProfile
+	const photoProfile = currentInfo.user.photoProfile
 	return (
 		<View  >
 			<View style={[styles.headerContainer,{paddingTop:insets.top + 8}]} >
@@ -25,12 +25,12 @@ const Chat = () => {
 					<Image source={{uri:photoProfile ? photoProfile.url: "https://placekitten.com/g/200/200"}} style={[styles.photo,{backgroundColor:bgColor}]} />
 				</View>
 				<View style={styles.dataContainer} >
-					<Text style={styles.headerTitle} numberOfLines={1} ellipsizeMode="tail" >{currentInfo.name}</Text>
+					<Text style={styles.headerTitle} numberOfLines={1} ellipsizeMode="tail" >{currentInfo.user.name}</Text>
 					<Text style={styles.statusText} >Online</Text>
 				</View>
 				<View style={styles.optionsContainer} >
 					<Pressable style={({pressed})=>[styles.btnOptions,{backgroundColor:pressed ? "rgba(213, 216, 220, 0.4)" : "white" }]} >
-						<Icons name="threeDotsVertical" size={20} />
+						<Icons name="threedotsvertical" size={20} />
 					</Pressable>
 				</View>
 				

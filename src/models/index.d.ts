@@ -68,6 +68,7 @@ type EagerMessage = {
   readonly messageType: string;
   readonly chatroomID: string;
   readonly userID: string;
+  readonly messageToSearc: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -82,6 +83,7 @@ type LazyMessage = {
   readonly messageType: string;
   readonly chatroomID: string;
   readonly userID: string;
+  readonly messageToSearc: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -103,6 +105,7 @@ type EagerUser = {
   readonly status?: string | null;
   readonly UserMessage?: (Message | null)[] | null;
   readonly ChatRooms?: (UserChatRoom | null)[] | null;
+  readonly nameToSearch: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -118,6 +121,7 @@ type LazyUser = {
   readonly status?: string | null;
   readonly UserMessage: AsyncCollection<Message>;
   readonly ChatRooms: AsyncCollection<UserChatRoom>;
+  readonly nameToSearch: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

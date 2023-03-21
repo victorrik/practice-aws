@@ -7,26 +7,38 @@ export interface ButtonProps extends TouchableWithoutFeedbackProps {
 	// style?: StyleProp<ViewStyle> | undefined;
 }
 export interface ButtonRef {
-	handleLoading:(nextState:boolean)=>void
+	setLoading:(nextState:boolean)=>void
 }
 
-export type IconsAvailable =  "paperclip"| 
-"camera"| 
-"cardImage"| 
-"peopleCircle"| 
-"people"| 
-"person"| 
-"arrowLeft"| 
-"plusLg"| 
-"imageAlt"| 
-"facebook"| 
-"meta"| 
-"whatsapp"| 
-"google"| 
-"apple"| 
-"envelope"| 
-"personbadge"| 
-"boxarrowright"| 
+export interface VerifyCodeProps {
+	email:string
+	handleAction:()=>void
+}
+
+export interface VerifyCodeRef {
+	showModal:(state:boolean)=>void
+}
+
+export type IconsAvailable =  "paperclip"|
+"camera"|
+"cardimage"|
+"peoplecircle"|
+"people"|
+"person"|
+"arrowLeft"|
+"plusLg"|
+"imagealt"|
+"facebook"|
+"meta"|
+"whatsapp"|
+"google"|
+"apple"|
+"envelope"|
+"personbadge"|
+"boxarrowright"|
 "phone"|
 "xlg"|
-"threeDotsVertical"
+"personAdd"|
+"search"|
+"send"|
+"threedotsvertical"

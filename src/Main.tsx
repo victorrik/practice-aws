@@ -15,14 +15,14 @@ function Main() {
 		<Stack.Navigator
 			screenOptions={{
 				animation: "slide_from_right",
-				headerShown: false,
+				headerShown: false
 			}}
 
 		>
 			<Stack.Screen name="LaunchScreen" component={LaunchScreen} />
 			<Stack.Screen name="Home" component={Home} options={{
 				contentStyle: {
-					//backgroundColor:"white"
+					backgroundColor:"#F2F5F7"
 				}
 			}} />
 			<Stack.Screen name="Login" component={Login} />

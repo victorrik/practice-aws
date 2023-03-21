@@ -147,6 +147,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "messageToSearc": {
+                    "name": "messageToSearc",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -271,6 +278,13 @@ export const schema = {
                             "user"
                         ]
                     }
+                },
+                "nameToSearch": {
+                    "name": "nameToSearch",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -457,5 +471,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.3.6",
-    "version": "3e50117e2bfb758a9806302fe3345f8e"
+    "version": "6743c7a30f863a4aa011a3a71cffb094"
 };

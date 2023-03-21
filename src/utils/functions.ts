@@ -14,3 +14,4 @@ export const sleep = (timeAwait: number = 0.5) =>
   );
 
 export const rndInterger = (min: number = 0, max: number = 100) => Math.floor(Math.random() * (max - min + 1)) + min;
+export const removeSpecialCharacters=(value:string)=>value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");

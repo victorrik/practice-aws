@@ -1,30 +1,62 @@
 import { ChatPreview, User } from "@AppTypes";
 import { rndInterger } from "@utils/functions";
+import { API, graphqlOperation } from 'aws-amplify';
+import { GraphQLQuery } from '@aws-amplify/api';
+import { listUsers } from "@VGraphql/queries"
 import { create } from "zustand";
-interface CurrentChat extends ChatPreview {
-	messages:[]
+import { GetUserQuery, ListUsersQuery } from "src/API";
+import { getUserChatRooms } from "@utils/queries";
+import dayjs from "dayjs"; 
+
+type GetUserChatRoomsQuery = {
+	getUser:{
+		id:string
+		ChatRooms:{
+			items:Array<{
+				chatRoom:{
+						id:string
+						users:{
+						items:Array<{
+							user:{
+									id:string
+									name:string
+									nameToSearch:string
+									photoProfile?:{
+										url:string
+									},
+									status:string
+								}
+						}>
+					}
+					LastMessage?:{
+						id:string
+						createdAt:string
+						message:string
+						messageToSearc:string
+						messageType:string
+					}
+				}
+		}>
+	}
 }
-const defaultCurrentChat:CurrentChat = {
-	messages: [],
+};
+const defaultCurrentChat:ChatPreview = {
+	id: "",
+	user: {
+		name: "",
+		id: "",
+		photoProfile: null,
+		status: ""
+	},
 	message: "",
 	messageLastDate: 0,
-	messageType: "text",
-	id: "",
-	name: "",
-	photoProfile: {
-		width: 0,
-		height: 0,
-		path: "",
-		url: "",
-		filename: ""
-	},
-	status: ""
+	messageType: "text"
 }
 interface ChatsState {
   chatList: Array<ChatPreview>;
 	loadingChats:boolean,
-  getChatList: () => Promise<boolean>;
-  currentChat: CurrentChat;
+  getChatList: (id:string) => Promise<boolean>;
+  currentChat: ChatPreview;
   setCurrentChat: (chat:ChatPreview) => void;
   clearCurrentChat: () => void;
 }
@@ -41,35 +73,37 @@ const messages = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
 const useChatsStore = create<ChatsState>((set, get) => ({
   chatList: [],
 	loadingChats:true,
-  getChatList: async () => {
-		const poolFetch = Array(20).fill("").map(async()=>fetch("https://random-data-api.com/api/v2/users").then((res)=>res.json()))
-		const result = await Promise.all(poolFetch)
-		set({loadingChats:false,chatList:result.map((obj)=>{
-			const width = rndInterger(1,7) * 100
-			const height = rndInterger(1,7) * 100
-			//`https://placekitten.com/${width}/${height}`
-			const messageLastDate = new Date().getTime() - (rndInterger(10000,900000) * 100)
-			return {
-				id:obj.uid,
-				name: `${obj.first_name} ${obj.last_name}${rndInterger(1,9) % 2 === 0 ? " "+obj.address.street_name:""}`,
-				photoProfile:{ 
-					width,
-					height,
-					url:`https://placekitten.com/${width}/${height}`,
-					path:"",
-					filename:"placekitten.png"
-				},
-				status: "active",
-				message:messages[ rndInterger(0, messages.length - 1)],
-				messageType:"text",
-				messageLastDate
-			}
-		})})
-    return true;
+  getChatList: async (id) => {
+		try {
+			const result = await API.graphql<GraphQLQuery<GetUserChatRoomsQuery>>(graphqlOperation(getUserChatRooms,{id}))
+			const resumeResult = result.data.getUser.ChatRooms.items.map(({chatRoom}):ChatPreview=>{
+				const daUser = chatRoom.users.items.find((obj)=>obj.user.id !== id).user
+				return {
+					id:chatRoom.id,
+					user:{
+						id:daUser.id,
+						status:daUser.status,
+						name:daUser.name,
+						//@ts-ignore
+						photoProfile:chatRoom.users.items[0].user.photoProfile,
+					},
+					message:chatRoom.LastMessage?.message,
+					//@ts-ignore
+					messageType:chatRoom.LastMessage?.messageType,
+					messageLastDate: new Date(chatRoom.LastMessage?chatRoom.LastMessage.createdAt:null).getTime()
+				}
+			})
+		 
+			set({loadingChats:false,chatList:resumeResult as ChatPreview[]})
+			return true
+		} catch (error) {
+			console.log("error-->",error)
+			return false
+		}
   },
   currentChat:  defaultCurrentChat,
   setCurrentChat: (chat) => {
-		set({currentChat:{...chat,messages:[]}})
+		set({currentChat:chat})
 	},
   clearCurrentChat: () => {
 		set({currentChat:defaultCurrentChat})

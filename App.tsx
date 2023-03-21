@@ -11,7 +11,7 @@ function App() {
   return (
     <SafeAreaProvider>
 			<NavigationContainer>
-				<StatusBar style="auto" />
+				<StatusBar style="dark" />
 				<Main/>
 			</NavigationContainer>
 		</SafeAreaProvider>

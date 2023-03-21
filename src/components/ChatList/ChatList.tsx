@@ -6,16 +6,17 @@ import { rndInterger } from '@utils/functions'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Button from '../Button'
 import { SCREEN_HEIGHT } from '@utils/constants'
+import useUserStore from '@stores/useUserStore'
 
 
 const ChatList = () => {
 	const chatsStore  = useChatsStore()
+	const userStore = useUserStore()
 	const insets = useSafeAreaInsets()
 	useEffect(()=>{
 		const getTheChats = async() => { 
-			const result = await chatsStore.getChatList()
-			console.log('getTheChats',result)
-			
+			const result = await chatsStore.getChatList(userStore.user.id)
+			console.log('getTheChats',result) 
 		 }
 		 getTheChats()
 	},[])

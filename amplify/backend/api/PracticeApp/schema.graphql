@@ -11,6 +11,7 @@ type Message @model @auth(rules: [{allow: public}]) {
   messageType: String!
   chatroomID: ID! @index(name: "byChatRoom")
   userID: ID! @index(name: "byUser")
+  messageToSearc: String!
 }
 
 type VFile {
@@ -28,5 +29,6 @@ type User @model @auth(rules: [{allow: public}]) {
   status: String
   UserMessage: [Message] @hasMany(indexName: "byUser", fields: ["id"])
   ChatRooms: [ChatRoom] @manyToMany(relationName: "UserChatRoom")
+  nameToSearch: String!
 }
  

@@ -18,10 +18,10 @@ const ContactCell = (props:ContactCellProps) => {
 		<Pressable onPress={goToChat}
 		style={({pressed})=>[styles.container,{backgroundColor:pressed ? "rgba(62, 179, 169, 0.7)":"white"}]} >
 			<View style={styles.photoContainer} >
-				<Image source={{uri:props.photoProfile? props.photoProfile.url: "https://placekitten.com/g/200/200"}} style={styles.photo} />
+				<Image source={{uri:props.user.photoProfile? props.user.photoProfile.url: "https://placekitten.com/g/200/200"}} style={styles.photo} />
 			</View>
 			<View style={styles.data} >
-				<Text style={styles.nameText} numberOfLines={1}  ellipsizeMode="tail" >{props.name}</Text>
+				<Text style={styles.nameText} numberOfLines={1}  ellipsizeMode="tail" >{props.user.name}</Text>
 				<Text style={styles.messageText} numberOfLines={2}  ellipsizeMode="tail" >{props.message}</Text>
 			</View>
 			<View style={styles.extras} >
